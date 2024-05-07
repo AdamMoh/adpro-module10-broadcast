@@ -6,3 +6,7 @@
 
 2. Experiment 2.2: Modifying port
 For port modifying, i change the port number in server and client because it should be in the same port number to connect each other. TCP are utilized by the server side, on the other hand websocket is used by the client side, as we can see there is a syntax that says the server using TCP `let listener = TcpListener::bind("127.0.0.1:8080").await?;` and the client using websocket `ClientBuilder::from_uri(Uri::from_static("ws://127.0.0.1:8080"))` from tokio.
+
+3. Experiment 2.3: Small changes, add IP and Port
+    <img src ="assets/ss2.png">
+I am utilizin `ghostname` library to show the hostname for the client and server, on the both side i made a changes to send a message consist of the hostname and the message and wrap it into a string. The server will receive the message and split it into 2 parts, the hostname and the message, and then the server will send the message to all clients that connect to the server.

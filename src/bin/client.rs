@@ -3,6 +3,7 @@ use futures_util::stream::StreamExt;
  use http::Uri;
  use tokio::io::{AsyncBufReadExt, BufReader};
  use tokio_websockets::{ClientBuilder, Message};
+ use gethostname::gethostname;
 
  #[tokio::main]
  async fn main() -> Result<(), tokio_websockets::Error> {
@@ -13,6 +14,7 @@ use futures_util::stream::StreamExt;
 
      let stdin = tokio::io::stdin();
      let mut stdin = BufReader::new(stdin).lines();
+     let host = gethostname().into_string().unwrap_or_else(|_| "unknown".to_string());
 
      // TODO: For a hint, see the description of the task below.
      loop {
@@ -20,7 +22,8 @@ use futures_util::stream::StreamExt;
              incoming = ws_stream.next() => {
                  match incoming {
                      Some(Ok(msg)) => {
-                         if let Some(text) = msg.as_text() {println!("From server: {}", text);}
+                        
+                        if let Some(text) = msg.as_text() {println!("{}'s Computer - From server: {}",host, text);}
                      },
                      Some(Err(err)) => return Err(err.into()),
                      None => return Ok(()),
